@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TotourialController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,5 +30,7 @@ Route::get('totourial/{totourial}', [TotourialController::class, 'show'])->name(
 Route::post('totourials', [TotourialController::class, 'store'])->name('totourial.store')->middleware('auth');
 
 Route::get('create', [TotourialController::class, 'create'])->middleware('auth')->name('totourial.create')->middleware('auth');
+
+Route::post('task/{post}', [TaskController::class, 'store'])->name('task.store')->middleware('auth');
 
 require __DIR__.'/auth.php';
