@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TotourialController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('totourials', [TotourialController::class, 'index'])->name('totourial.index');
+
+Route::get('totourial/{totourial}', [TotourialController::class, 'show'])->name('totourial.show');
+
+Route::post('totourials', [TotourialController::class, 'store'])->name('totourial.store')->middleware('auth');
+
+Route::get('create', [TotourialController::class, 'create'])->middleware('auth')->name('totourial.create')->middleware('auth');
 
 require __DIR__.'/auth.php';

@@ -1,0 +1,2 @@
+{{ $totourial->title }}
+{{ $totourial->body }}
