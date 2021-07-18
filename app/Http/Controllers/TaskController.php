@@ -31,11 +31,17 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $reques
+     * @param  App\Models\Totourial  $totourial
      * @return \Illuminate\Http\Response
      */
     public function store(Totourial $totourial)
     {
+        request()->validate([
+            'body' => 'required'
+        ]);
+        /*if (auth()->user()->isNot($totourial->user)) {
+            abort(403);
+        }*/
         $totourial->addTask(request('body'));
 
         return route('totourial.index');

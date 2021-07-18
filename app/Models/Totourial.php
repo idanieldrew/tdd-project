@@ -9,11 +9,16 @@ class Totourial extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['title','body','user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class,'totourial_id');
     }
 
     public function addTask($body)

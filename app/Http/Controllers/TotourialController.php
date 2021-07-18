@@ -14,9 +14,9 @@ class TotourialController extends Controller
      */
     public function index()
     {
-        $toturials = Totourial::all();
+        $totourials = Totourial::all();
 
-        return view('Totourail.Totourials', compact('totourails'));
+        return view('Totourial.Totourials', compact('totourials'));
     }
 
     /**
