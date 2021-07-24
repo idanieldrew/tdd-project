@@ -70,7 +70,7 @@ class TotourialTest extends TestCase
     }
 
     /** @test */
-    public function a_post_has_a_owner()
+    public function a_totourial_has_a_owner()
     {
         $this->Login();
 
@@ -82,7 +82,7 @@ class TotourialTest extends TestCase
     /** @test */
     public function page_of_special_post()
     {
-        $this->withoutExceptionHandling();
+        $this->Login();
         $totourial = Totourial::factory()->create();
 
         $this->get(route('totourial.show', $totourial->id))

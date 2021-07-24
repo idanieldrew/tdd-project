@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<x-app-layout>
     <h1>CREATE</h1>
     @if ($errors)
 
@@ -15,3 +14,4 @@
 
         <button type="submit">OKKKKKKK</button>
     </form>
+</x-app-layout>

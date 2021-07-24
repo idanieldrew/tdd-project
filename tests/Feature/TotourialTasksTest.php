@@ -9,21 +9,36 @@ use Tests\TestCase;
 
 class TotourialTasksTest extends TestCase
 {
-    use  RefreshDatabase;
+
+    use RefreshDatabase;
 
     /** @test */
-    public function a_post_have_a_task()
+    public function a_totourial_have_a_task()
     {
         $this->Login();
 
         $totourial = Totourial::factory()->create(['user_id' => auth()->user()->id]);
 
-        $this->post(route('task.store', $totourial->id), ['body' => 'suns']);
+        $this->post(route('task.store', $totourial->id), ['body' => 'bucks']);
 
-        $this->get(route('totourial.index'))->assertSee('suns');
+        $this->get(route('totourial.show', $totourial->id))->assertSee('bucks');
     }
 
     /** @test */
+    public function a_task_can_update()
+    {
+        $this->withoutExceptionHandling();
+        $this->Login();
+
+        $totourial = Totourial::factory()->create(['user_id' => auth()->user()->id]);
+
+        $task = $totourial->addTask(['body' => 'win']);
+        $this->patch(route('task.update', [$totourial->id, $task->id]), []);
+
+        $this->assertDatabaseHas('tasks',['body' => 'changed']);
+    }
+
+    /** @tst */
     public function just_owner_can_create_task()
     {
         $this->Login();

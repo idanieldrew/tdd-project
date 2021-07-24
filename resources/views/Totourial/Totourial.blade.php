@@ -24,7 +24,20 @@
                 </div>
             </form>
             @foreach ($totourial->tasks as $task)
-                {{ $task->body }}
+                <form action="{{ route('task.update', [$totourial->id, $task->id]) }}" method="POST">
+                    @csrf
+                    @method('patch')
+                    <div class="flex py-2">
+                        <div>
+                            <input name="body" type="text" value="{{ $task->body }}" placeholder="{{ $task->body }}"
+                                class="bg-white px-2 py-2 mx-auto text-black border-0 rounded-lg focus:text-red-500 focus:bg-white">
+                        </div>
+                        <div class="pl-24">
+                            <input type="checkbox" name="complete" onchange="this.form.submit()"
+                                {{ $task->complete ? 'checked' : '' }} }}>
+                        </div>
+                    </div>
+                </form>
             @endforeach
         </div>
 

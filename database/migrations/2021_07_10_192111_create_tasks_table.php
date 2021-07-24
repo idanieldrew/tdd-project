@@ -16,7 +16,8 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->text('body');
-            $table->foreignId('totourial_id')->constrained();
+            $table->boolean('complete')->default(false);
+            $table->unsignedBigInteger('totourial_id');
             $table->timestamps();
         });
     }

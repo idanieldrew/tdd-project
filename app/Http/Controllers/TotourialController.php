@@ -14,7 +14,7 @@ class TotourialController extends Controller
      */
     public function index()
     {
-        $totourials = Totourial::all();
+        $totourials = auth()->user()->totourials()->lastest();
 
         return view('Totourial.Totourials', compact('totourials'));
     }

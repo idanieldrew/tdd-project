@@ -9,10 +9,12 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['body', 'totourial_id'];
+    protected $guarded=[];
+
+    // protected $touches = ['totourial'];
 
     public function totourial()
     {
-        return $this->belongsTo(Totourial::class,'id');
+        return $this->belongsTo(Totourial::class);
     }
 }

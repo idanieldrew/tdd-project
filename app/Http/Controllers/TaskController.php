@@ -34,19 +34,20 @@ class TaskController extends Controller
      * @param  App\Models\Totourial  $totourial
      * @return \Illuminate\Http\Response
      */
-    public function store(Totourial $totourial)
+    public function store(Totourial $totourial, Request $request)
     {
         request()->validate([
-            'body' => 'required'
+            'body' => 'required',
         ]);
+
         /*if (auth()->user()->isNot($totourial->user)) {
             abort(403);
         }*/
-        $totourial->addTask(request('body'));
 
-        return route('totourial.index');
+        $totourial->addTask(request()->all());
+
+        return redirect()->route('totourial.show',$totourial->id);
     }
-
     /**
      * Display the specified resource.
      *
@@ -72,13 +73,18 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Totourial  $totourial
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Totourial $totourial, Task $task)
     {
-        //
+        $task->update([
+            'body' => request()->body ?? 'changed',
+            'complete' => true
+        ]);
+
+        return redirect()->route('totourial.show',$totourial->id);
     }
 
     /**

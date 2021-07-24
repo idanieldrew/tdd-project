@@ -31,6 +31,9 @@ Route::post('totourials', [TotourialController::class, 'store'])->name('totouria
 
 Route::get('create', [TotourialController::class, 'create'])->middleware('auth')->name('totourial.create')->middleware('auth');
 
-Route::post('task/{post}', [TaskController::class, 'store'])->name('task.store')->middleware('auth');
+Route::post('{totourial}/tasks', [TaskController::class, 'store'])->name('task.store')->middleware('auth');
+
+Route::patch('totourial/{totourial}/task/{task}', [TaskController::class, 'update'])->name('task.update')->middleware('auth');
+
 
 require __DIR__.'/auth.php';

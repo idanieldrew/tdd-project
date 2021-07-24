@@ -18,11 +18,11 @@ class Totourial extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class,'totourial_id');
+        return $this->hasMany(Task::class);
     }
 
     public function addTask($body)
     {
-        return $this->tasks()->create(['body' => $body]);
+        return $this->tasks()->create($body);
     }
 }
