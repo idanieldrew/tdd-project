@@ -27,6 +27,10 @@ Route::get('totourials', [TotourialController::class, 'index'])->name('totourial
 
 Route::get('totourial/{totourial}', [TotourialController::class, 'show'])->name('totourial.show');
 
+Route::get('totourial/{totourial}/edit',[TotourialController::class,'edit'])->name('totourial.edit');
+
+Route::patch('totourial/{totourial}/update',[TotourialController::class,'update'])->name('totourial.update');
+
 Route::post('totourials', [TotourialController::class, 'store'])->name('totourial.store')->middleware('auth');
 
 Route::get('create', [TotourialController::class, 'create'])->middleware('auth')->name('totourial.create')->middleware('auth');

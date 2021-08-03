@@ -36,17 +36,14 @@ class TaskController extends Controller
      */
     public function store(Totourial $totourial, Request $request)
     {
+        $this->authorize('view', $totourial);
         request()->validate([
             'body' => 'required',
         ]);
 
-        /*if (auth()->user()->isNot($totourial->user)) {
-            abort(403);
-        }*/
-
         $totourial->addTask(request()->all());
 
-        return redirect()->route('totourial.show',$totourial->id);
+        return redirect()->route('totourial.show', $totourial->id);
     }
     /**
      * Display the specified resource.
@@ -84,7 +81,7 @@ class TaskController extends Controller
             'complete' => true
         ]);
 
-        return redirect()->route('totourial.show',$totourial->id);
+        return redirect()->route('totourial.show', $totourial->id);
     }
 
     /**

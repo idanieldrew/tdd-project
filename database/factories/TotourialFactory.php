@@ -27,7 +27,7 @@ class TotourialFactory extends Factory
             'body' => $this->faker->paragraph(),
             'user_id' => function(){
                 return User::factory()->create()->id;
-            }
+            },
         ];
     }
 }

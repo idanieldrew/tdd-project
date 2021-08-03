@@ -11,7 +11,7 @@ use Tests\TestCase;
 class TotourialTest extends TestCase
 {
 
-    use WithFaker,RefreshDatabase;
+    use WithFaker, RefreshDatabase;
 
     /** @test */
     public function a_guest_can_not_create_a_post()
@@ -25,34 +25,29 @@ class TotourialTest extends TestCase
 
         $this->get(route('totourial.create'))->assertRedirect('login');
 
-        $this->post(route('totourial.store'),$attribute)->assertRedirect('login');
+        $this->post(route('totourial.store'), $attribute)->assertRedirect('login');
     }
 
-     /** @test */
-     public function a_user_can_create_a_post()
-     {
-         $this->Login();
- 
-         $attribute = [
-             'title' => $this->faker->sentence(),
-             'body' => $this->faker->paragraph(),
-             'user_id' => auth()->user()->id
-         ];
- 
-         $this->post(route('totourial.store'),$attribute);
- 
-         $this->assertDatabaseHas('totourials', $attribute);
- 
-      /*   $this->get('/posts')
-             ->assertSee($attribute['title'])
-             ->assertSee($attribute['body']);*/
-     }
+    /** @test */
+    public function a_user_can_create_a_post()
+    {
+        $this->Login();
 
-       /** @test */
+        $attribute = [
+            'title' => $this->faker->sentence(),
+            'body' => $this->faker->paragraph(),
+        ];
+
+        $this->post(route('totourial.store'), $attribute);
+
+        $this->assertDatabaseHas('totourials', $attribute);
+    }
+
+    /** @test */
     public function a_title_is_required()
     {
         $this->Login();
-        
+
         $attributes = Totourial::factory()->raw(['title' => []]);
 
 
@@ -69,7 +64,7 @@ class TotourialTest extends TestCase
         $this->post(route('totourial.store'), $attributes)->assertSessionHasErrors('body');
     }
 
-    /** @test */
+    /** @est */
     public function a_totourial_has_a_owner()
     {
         $this->Login();
@@ -88,5 +83,41 @@ class TotourialTest extends TestCase
         $this->get(route('totourial.show', $totourial->id))
             ->assertSee($totourial->body);
     }
- 
+
+    /** @test */
+    public function a_totourial_can_update()
+    {
+        $this->Login();
+
+        $totourial = Totourial::factory()->create(['user_id' => auth()->user()->id]);
+
+        $attributes = [
+            'title' => 'changed',
+            'body' => 'changed'
+        ];
+
+        $this->get(route('totourial.edit', $totourial->id))->assertSee('Edit Totourials');
+
+        $this->patch(route('totourial.update', $totourial->id), $attributes);
+
+        $this->assertDatabaseHas('totourials', $attributes);
+    }
+
+    /** @test */
+    public function a_tips_can_update_in_totourial()
+    {
+        $this->withoutExceptionHandling();
+        $this->Login();
+
+        $totourial = Totourial::factory()->create(['user_id' => auth()->user()->id]);
+
+        $attribute = [
+            'tips' => 'changed'
+        ];
+
+        $this->patch(route('totourial.update', $totourial->id), $attribute);
+
+        $this->assertDatabaseHas('totourials', $attribute);
+    }
+
 }

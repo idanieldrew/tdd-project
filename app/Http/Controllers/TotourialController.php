@@ -14,7 +14,7 @@ class TotourialController extends Controller
      */
     public function index()
     {
-        $totourials = auth()->user()->totourials()->lastest();
+        $totourials = auth()->user()->totourials()->get();
 
         return view('Totourial.Totourials', compact('totourials'));
     }
@@ -40,17 +40,13 @@ class TotourialController extends Controller
         $attributes = $request->validate([
             'title' => 'required',
             'body' => 'required',
-            'user_id' => 'required'
         ]);
-        $attributes['user_id'] = auth()->user()->id;
-        // $attributes = $request->all();
 
-        // Post::create($attributes);
         auth()->user()->totourials()->create($attributes);
 
         return redirect()->route('totourial.index');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -66,24 +62,31 @@ class TotourialController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Totourial  $totourial
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Totourial $totourial)
     {
-        //
+        return view('Totourial.Edit', compact('totourial'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Totourial  $totourial
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Totourial $totourial)
     {
-        //
+        $x = request()->validate([
+            'title' => 'sometimes|required',
+            'body' => 'sometimes|required',
+            'tips' => 'nullable'
+        ]);
+
+        $totourial->update($x);
+        
+        return redirect()->back();
     }
 
     /**

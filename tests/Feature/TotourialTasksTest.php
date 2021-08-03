@@ -27,7 +27,6 @@ class TotourialTasksTest extends TestCase
     /** @test */
     public function a_task_can_update()
     {
-        $this->withoutExceptionHandling();
         $this->Login();
 
         $totourial = Totourial::factory()->create(['user_id' => auth()->user()->id]);
@@ -38,7 +37,7 @@ class TotourialTasksTest extends TestCase
         $this->assertDatabaseHas('tasks',['body' => 'changed']);
     }
 
-    /** @tst */
+    /** @test */
     public function just_owner_can_create_task()
     {
         $this->Login();

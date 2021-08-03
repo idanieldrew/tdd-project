@@ -9,7 +9,7 @@ class Totourial extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title','body','user_id'];
+    protected $fillable = ['title','body','tips','user_id'];
 
     public function user()
     {

@@ -38,8 +38,27 @@
                         </div>
                     </div>
                 </form>
+                
+            </div>
             @endforeach
+            <div class="block w-full text-center py-10">
+                <div>
+                    @foreach($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+                <form action="{{ route('totourial.update',$totourial->id) }}" method="POST">
+                @csrf
+                @method('patch')
+                <div>
+                    <textarea name="tips" cols="15" rows="5" placeholder="TIPS">{{ $totourial->tips }}</textarea>
+                </div>
+                <div class="p-1">
+                    <p>Add Tips</p>
+                    <button class="p-2 bg-yellow-400 hover:bg-yellow-600 text-black rounded-md" type="submit">Save</button>
+                </div>
+                </form>
         </div>
-
     </div>
+ 
 </x-app-layout>
