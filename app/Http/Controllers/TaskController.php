@@ -78,8 +78,9 @@ class TaskController extends Controller
     {
         $task->update([
             'body' => request()->body ?? 'changed',
-            'complete' => true
         ]);
+
+        request()->complete ? $totourial->completing() : $totourial->inCompleting();
 
         return redirect()->route('totourial.show', $totourial->id);
     }

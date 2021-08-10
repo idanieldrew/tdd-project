@@ -58,6 +58,12 @@
                     <button class="p-2 bg-yellow-400 hover:bg-yellow-600 text-black rounded-md" type="submit">Save</button>
                 </div>
                 </form>
+
+                <div>
+                    @foreach($totourial->activity as $activity)
+                        <p>{{ $activity->title }}</p>
+                    @endforeach
+                </div>
         </div>
     </div>
  

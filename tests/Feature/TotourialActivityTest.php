@@ -2,21 +2,103 @@
 
 namespace Tests\Feature;
 
+use App\Models\Totourial;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TotourialActivityTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
+    //use RefreshDatabase, WithFaker;
 
-        $response->assertStatus(200);
+    /** @test */
+    public function create_activity_after_create_toturial()
+    {
+        $this->Login();
+
+        $totourial = Totourial::factory()->create();
+
+        $this->assertCount(1, $totourial->activity);
+
+        $this->assertDatabaseHas('activities', ['title' => "create_without_task_$totourial->id"]);
+    }
+
+    /** @test */
+    public function create_activity_after_update_toturial()
+    {
+        $this->Login();
+
+        $totourial = Totourial::factory()->create();
+
+        $totourial->update(['title' => 'updated']);
+
+        $this->assertCount(2, $totourial->activity);
+
+        $this->assertDatabaseHas('activities', ['title' => 'create_2']);
+    }
+
+    /** @test */
+    public function create_activity_after_create_task()
+    {
+        $this->Login();
+
+        $totourial = Totourial::factory()->create();
+
+        $totourial->addTask(['body' => 'create']);
+
+        $this->assertCount(2, $totourial->activity);
+
+        $this->assertDatabaseHas('activities', ['title' => "create_without_task_$totourial->id"]);
+
+        $this->assertDatabaseHas('activities', ['title' => "create_without_task_$totourial->id"]);
+    }
+
+    /** @test */
+    public function create_activity_after_complate_in_tasks_table()
+    {
+        $this->Login();
+
+        $totourial = Totourial::factory()->create();
+
+        $task = $totourial->addTask(['body' => 'create']);
+
+        $attribute = [
+            'complete' => true
+        ];
+
+        $this->patch(route('task.update', [$totourial->id, $task->id]), $attribute);
+
+        $this->assertCount(3, $totourial->fresh()->activity);
+
+        $this->assertDatabaseHas('tasks', ['complete' => true]);
+        $this->assertDatabaseHas('activities', ['title' => "create_without_task_$totourial->id"]);
+
+        $this->assertDatabaseHas('activities', ['title' => 'create_with_complete_task']);
+    }
+
+    /** @test */
+    public function create_activity_after_incomplate_in_tasks_table()
+    {
+        $this->Login();
+
+        $totourial = Totourial::factory()->create();
+
+        $task = $totourial->addTask(['body' => 'create']);
+
+        $true = [
+            'complete' => true
+        ];
+
+        $this->patch(route('task.update', [$totourial->id, $task->id]), $true);
+
+        $false = [
+            'complete' => false
+        ];
+
+        $this->patch(route('task.update', [$totourial->id, $task->id]), $false);
+
+        $this->assertDatabaseHas('tasks', ['complete' => false]);
+
+        $this->assertDatabaseHas('activities', ['title' => 'create_with_incomplete_task']);
     }
 }
