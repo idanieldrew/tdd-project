@@ -16,7 +16,9 @@ class CreateActivitiesTable extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('totourial_id')->constrained();
+            $table->string('activitable_type');
+            $table->text('changes')->nullable();
+            $table->unsignedBigInteger('activitable_id');
             $table->timestamps();
         });
     }

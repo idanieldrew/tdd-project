@@ -104,6 +104,25 @@ class TotourialTest extends TestCase
     }
 
     /** @test */
+    public function a_totourial_can_delete()
+    {
+        $this->Login();
+
+        $totourial = Totourial::factory()->create(['user_id' => auth()->user()->id]);
+
+        $this->delete(route('totourial.destroy', $totourial->id));
+
+        $this->assertDatabaseMissing('totourials', ['title' => $totourial->title]);
+    }
+
+    /** @test */
+    public function a_guest_cant_remove_totourial()
+    {
+        $totourial = Totourial::factory()->create();
+
+        $this->delete(route('totourial.destroy', $totourial->id))->assertStatus(403);
+    }
+    /** @test */
     public function a_tips_can_update_in_totourial()
     {
         $this->withoutExceptionHandling();
@@ -119,5 +138,4 @@ class TotourialTest extends TestCase
 
         $this->assertDatabaseHas('totourials', $attribute);
     }
-
 }

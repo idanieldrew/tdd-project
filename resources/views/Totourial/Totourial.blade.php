@@ -38,16 +38,15 @@
                         </div>
                     </div>
                 </form>
-                
+        </div>
+        @endforeach
+        <div class="block w-full text-center py-10">
+            <div>
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
             </div>
-            @endforeach
-            <div class="block w-full text-center py-10">
-                <div>
-                    @foreach($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
-                </div>
-                <form action="{{ route('totourial.update',$totourial->id) }}" method="POST">
+            <form action="{{ route('totourial.update', $totourial->id) }}" method="POST">
                 @csrf
                 @method('patch')
                 <div>
@@ -55,16 +54,19 @@
                 </div>
                 <div class="p-1">
                     <p>Add Tips</p>
-                    <button class="p-2 bg-yellow-400 hover:bg-yellow-600 text-black rounded-md" type="submit">Save</button>
+                    <button class="p-2 bg-yellow-400 hover:bg-yellow-600 text-black rounded-md"
+                        type="submit">Save</button>
                 </div>
-                </form>
+            </form>
 
-                <div>
-                    @foreach($totourial->activity as $activity)
-                        <p>{{ $activity->title }}</p>
-                    @endforeach
-                </div>
+            <div>
+                @forelse($totourial->activities as $activity)
+                <p>{{ $activity->title }}&{{ $activity->activitable_type }} {{ \Carbon\Carbon::createFromTimeStamp(strtotime($activity->created_at))->diffForHumans()  }}</p>
+                @empty
+                    <p>no activity</p>
+                @endforelse
+            </div>
         </div>
     </div>
- 
+
 </x-app-layout>

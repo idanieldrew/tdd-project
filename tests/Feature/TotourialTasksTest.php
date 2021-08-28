@@ -12,7 +12,7 @@ class TotourialTasksTest extends TestCase
 
     use RefreshDatabase;
 
-    /** @test */
+    /** @tst */
     public function a_totourial_have_a_task()
     {
         $this->Login();

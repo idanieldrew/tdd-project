@@ -37,11 +37,12 @@ class TaskController extends Controller
     public function store(Totourial $totourial, Request $request)
     {
         $this->authorize('view', $totourial);
+
         request()->validate([
             'body' => 'required',
         ]);
 
-        $totourial->addTask(request()->all());
+        request('complete') ? $totourial->completing : $totourial->inCompleting();
 
         return redirect()->route('totourial.show', $totourial->id);
     }

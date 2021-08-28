@@ -9,12 +9,17 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     // protected $touches = ['totourial'];
 
     public function totourial()
     {
         return $this->belongsTo(Totourial::class);
+    }
+
+    public function activities()
+    {
+        return $this->morphMany(Activity::class, 'activitable');
     }
 }

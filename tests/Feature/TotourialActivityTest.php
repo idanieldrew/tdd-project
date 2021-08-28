@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class TotourialActivityTest extends TestCase
 {
-    //use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker;
 
     /** @test */
     public function create_activity_after_create_toturial()
@@ -18,23 +18,31 @@ class TotourialActivityTest extends TestCase
 
         $totourial = Totourial::factory()->create();
 
-        $this->assertCount(1, $totourial->activity);
+        $this->assertCount(1, $totourial->activities);
 
         $this->assertDatabaseHas('activities', ['title' => "create_without_task_$totourial->id"]);
     }
 
     /** @test */
-    public function create_activity_after_update_toturial()
+    public function update_activity_after_update_totourial()
     {
         $this->Login();
 
         $totourial = Totourial::factory()->create();
 
+        $title = $totourial->title;
         $totourial->update(['title' => 'updated']);
 
-        $this->assertCount(2, $totourial->activity);
+        $this->assertCount(2, $totourial->activities);
 
-        $this->assertDatabaseHas('activities', ['title' => 'create_2']);
+        $change = [
+            'before' => ['title' => $title],
+            'after' => ['title' => 'updated']
+        ];
+
+        $this->assertEquals($change, $totourial->activities->last()->changes);
+
+        // $this->assertDatabaseHas('activities', ['title' => "updated_without_task_$totourial->id"]);
     }
 
     /** @test */
@@ -46,11 +54,11 @@ class TotourialActivityTest extends TestCase
 
         $totourial->addTask(['body' => 'create']);
 
-        $this->assertCount(2, $totourial->activity);
+        $this->assertCount(1, $totourial->activities);
 
         $this->assertDatabaseHas('activities', ['title' => "create_without_task_$totourial->id"]);
 
-        $this->assertDatabaseHas('activities', ['title' => "create_without_task_$totourial->id"]);
+        $this->assertDatabaseHas('activities', ['title' => "create_with_task"]);
     }
 
     /** @test */
@@ -68,7 +76,7 @@ class TotourialActivityTest extends TestCase
 
         $this->patch(route('task.update', [$totourial->id, $task->id]), $attribute);
 
-        $this->assertCount(3, $totourial->fresh()->activity);
+        $this->assertCount(1, $totourial->activities);
 
         $this->assertDatabaseHas('tasks', ['complete' => true]);
         $this->assertDatabaseHas('activities', ['title' => "create_without_task_$totourial->id"]);

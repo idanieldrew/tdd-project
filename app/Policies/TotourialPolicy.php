@@ -65,7 +65,7 @@ class TotourialPolicy
      */
     public function delete(User $user, Totourial $totourial)
     {
-        //
+        return $user->id == $totourial->user_id;
     }
 
     /**

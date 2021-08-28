@@ -27,9 +27,9 @@ Route::get('totourials', [TotourialController::class, 'index'])->name('totourial
 
 Route::get('totourial/{totourial}', [TotourialController::class, 'show'])->name('totourial.show');
 
-Route::get('totourial/{totourial}/edit',[TotourialController::class,'edit'])->name('totourial.edit');
+Route::get('totourial/{totourial}/edit', [TotourialController::class, 'edit'])->name('totourial.edit');
 
-Route::patch('totourial/{totourial}/update',[TotourialController::class,'update'])->name('totourial.update');
+Route::patch('totourial/{totourial}/update', [TotourialController::class, 'update'])->name('totourial.update');
 
 Route::post('totourials', [TotourialController::class, 'store'])->name('totourial.store')->middleware('auth');
 
@@ -39,5 +39,7 @@ Route::post('{totourial}/tasks', [TaskController::class, 'store'])->name('task.s
 
 Route::patch('totourial/{totourial}/task/{task}', [TaskController::class, 'update'])->name('task.update')->middleware('auth');
 
+Route::delete('totourial/{totourial}', [TotourialController::class, 'destroy'])->name('totourial.destroy');
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';

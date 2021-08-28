@@ -92,11 +92,14 @@ class TotourialController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  obj  $totourial
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Totourial $totourial)
     {
-        //
+        $this->authorize('delete');
+        $totourial->delete();
+
+        return redirect()->route('totourial.index');
     }
 }

@@ -15,7 +15,7 @@ class TotourialObserver
      */
     public function created(Totourial $totourial)
     {
-        $totourial->createActive("create_without_task_$totourial->id", $totourial->id);
+        $totourial->createActive("create_without_task_$totourial->id", 'App\Models\Totourial', $totourial->id);
     }
 
     /**
@@ -24,12 +24,20 @@ class TotourialObserver
      * @param  \App\Models\Totourial  $totourial
      * @return void
      */
+    public function updating(Totourial $totourial)
+    {
+        $totourial->old = $totourial->getOriginal();
+    }
+
+     /**
+     * Handle the Totourial "updated" event.
+     *
+     * @param  \App\Models\Totourial  $totourial
+     * @return void
+     */
     public function updated(Totourial $totourial)
     {
-        Activity::create([
-            'title' => 'create_2',
-            'totourial_id' => $totourial->id
-        ]);
+        $totourial->createActive("updated", 'App\Models\Totourial', $totourial->id);
     }
 
     /**
