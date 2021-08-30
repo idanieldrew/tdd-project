@@ -69,4 +69,14 @@ class Totourial extends Model
 
         $this->createActive('create_with_incomplete_task', 'App\Models\Task', $this->id);
     }
+
+    public function invite($user)
+    {
+        return  $this->inviteUsers()->attach($user);
+    }
+
+    public function inviteUsers()
+    {
+        return $this->belongsToMany(User::class, 'users_totourials');
+    }
 }

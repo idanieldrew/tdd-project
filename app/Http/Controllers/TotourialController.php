@@ -97,7 +97,7 @@ class TotourialController extends Controller
      */
     public function destroy(Totourial $totourial)
     {
-        $this->authorize('delete');
+        $this->authorize('delete',$totourial);
         $totourial->delete();
 
         return redirect()->route('totourial.index');

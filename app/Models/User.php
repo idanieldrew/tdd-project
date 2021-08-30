@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Totourial::class);
     }
+
+    public function addToTotourial()
+    {
+        return $this->belongsToMany(Totourial::class);
+    }
 }

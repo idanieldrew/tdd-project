@@ -107,7 +107,7 @@ class TotourialTest extends TestCase
     public function a_totourial_can_delete()
     {
         $this->Login();
-
+        
         $totourial = Totourial::factory()->create(['user_id' => auth()->user()->id]);
 
         $this->delete(route('totourial.destroy', $totourial->id));
