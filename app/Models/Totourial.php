@@ -33,7 +33,7 @@ class Totourial extends Model
     // add task 
     public function addTask($body)
     {
-        $task = $this->tasks()->create($body);
+        $task = $this->tasks()->create(compact('body'));
 
         $this->createActive("create_with_task", 'App\Models\Task', $this->id);
 
@@ -55,17 +55,17 @@ class Totourial extends Model
     }
 
     // complete 'complete' role in task table
-    public function completing()
+    public function completing($task)
     {
-        $this->tasks()->update(['complete' => true]);
+        $task->update(['complete' => true]);
 
         $this->createActive('create_with_complete_task', 'App\Models\Task', $this->id);
     }
 
     // inComplete 'complete' role in task table
-    public function inCompleting()
+    public function inCompleting($task)
     {
-        $this->tasks()->update(['complete' => false]);
+        $task->update(['complete' => false]);
 
         $this->createActive('create_with_incomplete_task', 'App\Models\Task', $this->id);
     }
@@ -77,6 +77,6 @@ class Totourial extends Model
 
     public function inviteUsers()
     {
-        return $this->belongsToMany(User::class, 'users_totourials');
+        return $this->belongsToMany(User::class, 'members_totourials');
     }
 }

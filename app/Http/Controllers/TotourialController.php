@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
+use App\Models\Task;
 use App\Models\Totourial;
+use App\Models\User;
+use App\Notifications\TestNotif;
 use Illuminate\Http\Request;
 
 class TotourialController extends Controller
@@ -14,7 +18,7 @@ class TotourialController extends Controller
      */
     public function index()
     {
-        $totourials = auth()->user()->totourials()->get();
+        $totourials = Totourial::paginate(9);
 
         return view('Totourial.Totourials', compact('totourials'));
     }
@@ -56,7 +60,19 @@ class TotourialController extends Controller
      */
     public function show(Totourial $totourial)
     {
-        return view('Totourial.Totourial', compact('totourial'));
+        $totourial->load(['tasks', 'activities', 'inviteUsers'])->get();
+
+        $tasks = $totourial->tasks;
+
+        $activities_Totourial = $totourial->activities;
+
+        $task = Task::where('totourial_id', $totourial->id)->with('activities')->first();
+
+        $activities_Task = $task->activities;
+
+        $invite = $totourial->inviteUsers;
+
+        return view('Totourial.Totourial', compact('totourial', 'tasks', 'activities_Totourial', 'activities_Task', 'invite'));
     }
 
     /**
@@ -85,7 +101,7 @@ class TotourialController extends Controller
         ]);
 
         $totourial->update($x);
-        
+
         return redirect()->back();
     }
 
@@ -97,9 +113,30 @@ class TotourialController extends Controller
      */
     public function destroy(Totourial $totourial)
     {
-        $this->authorize('delete',$totourial);
+        $this->authorize('delete', $totourial);
         $totourial->delete();
 
         return redirect()->route('totourial.index');
+    }
+
+    public function notif()
+    {
+        // $user = User::first();
+
+        // $user->notify((new TestNotif())->delay(now()->addMinutes(5)));
+    }
+
+    public function inviteFriends(Totourial $totourial)
+    {
+        $email = request()->all('mail');
+
+        $friend = User::whereEmail($email)->firstOrFail();
+
+        $totourial->invite($friend);
+
+        $delay = now()->addMinutes(5);
+        $friend->notify((new TestNotif($friend->name))->delay($delay));
+
+        return redirect()->route('totourial.show', $totourial->id);
     }
 }

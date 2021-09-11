@@ -14,7 +14,6 @@ class InviteTest extends TestCase
     /** @test */
     public function totourial_owner_can_invite_a_user()
     {
-        $this->withoutExceptionHandling();
         $this->Login();
 
         $totourial = Totourial::factory()->create(['user_id' => auth()->user()->id]);
@@ -23,6 +22,6 @@ class InviteTest extends TestCase
 
         $totourial->invite($user);
 
-        $this->assertDatabaseHas('users_totourials', ['user_id' => $user->id]);
+        $this->assertDatabaseHas('members_totourials', ['user_id' => $user->id]);
     }
 }

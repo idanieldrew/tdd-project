@@ -41,5 +41,8 @@ Route::patch('totourial/{totourial}/task/{task}', [TaskController::class, 'updat
 
 Route::delete('totourial/{totourial}', [TotourialController::class, 'destroy'])->name('totourial.destroy');
 
+Route::post('invite/{totourial}', [TotourialController::class, 'inviteFriends'])->name('invite');
 
+
+Route::get('send',[TotourialController::class,'notif']);
 require __DIR__ . '/auth.php';

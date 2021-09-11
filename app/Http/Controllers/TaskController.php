@@ -36,13 +36,13 @@ class TaskController extends Controller
      */
     public function store(Totourial $totourial, Request $request)
     {
-        $this->authorize('view', $totourial);
+        // $this->authorize('view', $totourial->id);
 
         request()->validate([
             'body' => 'required',
         ]);
 
-        request('complete') ? $totourial->completing : $totourial->inCompleting();
+        request('complete') ? $totourial->completing : $totourial->addTask(request()->body);
 
         return redirect()->route('totourial.show', $totourial->id);
     }
@@ -80,9 +80,9 @@ class TaskController extends Controller
         $task->update([
             'body' => request()->body ?? 'changed',
         ]);
+       request()->complete === 'on' ?  $totourial->completing($task): $totourial->inCompleting($task);
 
-        request()->complete ? $totourial->completing() : $totourial->inCompleting();
-
+//$totourial->inCompleting()
         return redirect()->route('totourial.show', $totourial->id);
     }
 

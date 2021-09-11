@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTotourialsTable extends Migration
+class AddAvatarToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateUsersTotourialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_totourials', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('totourial_id')->constrained();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('avatar')->default(null);
         });
     }
 
@@ -28,6 +25,8 @@ class CreateUsersTotourialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_totourials');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }
