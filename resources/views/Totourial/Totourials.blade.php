@@ -1,4 +1,7 @@
 <x-app-layout>
+    <div class=" text-right p-2">
+        <modal/>
+    </div>
     <div class="w-full h-44 grid grid-cols-4 px-4">
         @foreach ($totourials as $totourial)
             <div class="bg-white rounded-md p-2 border-4">
@@ -9,7 +12,7 @@
                 <h6 class="leading-loose text-center">
                     {{ Illuminate\Support\Str::limit($totourial->body, 130) }}
                 </h6>
-                @can('delete',$totourial)
+                @can('delete', $totourial)
                     <footer class="pt-2">
                         <form action="{{ route('totourial.destroy', $totourial->id) }}" method="POST">
                             @csrf
@@ -22,7 +25,5 @@
                 @endcan
             </div>
         @endforeach
-
-
     </div>
 </x-app-layout>

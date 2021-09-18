@@ -48,7 +48,9 @@ class TotourialController extends Controller
 
         auth()->user()->totourials()->create($attributes);
 
-        return redirect()->route('totourial.index');
+        return response([
+            'messages' => 'totourials'
+        ],201);
     }
 
 

@@ -31,9 +31,9 @@ Route::get('totourial/{totourial}/edit', [TotourialController::class, 'edit'])->
 
 Route::patch('totourial/{totourial}/update', [TotourialController::class, 'update'])->name('totourial.update');
 
-Route::post('totourials', [TotourialController::class, 'store'])->name('totourial.store')->middleware('auth');
+Route::post('store/totourial', [TotourialController::class, 'store'])->name('totourial.store')->middleware('auth');
 
-Route::get('create', [TotourialController::class, 'create'])->middleware('auth')->name('totourial.create')->middleware('auth');
+Route::get('create/totourial', [TotourialController::class, 'create'])->middleware('auth')->name('totourial.create')->middleware('auth');
 
 Route::post('{totourial}/tasks', [TaskController::class, 'store'])->name('task.store')->middleware('auth');
 
